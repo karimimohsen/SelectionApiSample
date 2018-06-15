@@ -1,6 +1,38 @@
 <html>
-    <head>
-        <script src="main.js"></script>
-    </head>
-    <body></body>
+
+<head>
+    <script src='main.js' async></script>
+</head>
+
+<body>
+    <div contenteditable id='container'>
+        <h2>
+            Selection
+        </h2>
+        <p>
+            user may make a selection from left to right (in document order) or right to left (reverse of document order). The anchor
+            is where the user began the selection and the focus is where the user ends the selection. If you make a selection
+            with a desktop mouse, the anchor is placed where you pressed the mouse button and the focus is placed where you
+            released the mouse button. Anchor and focus should not be confused with the start and end positions of a selection,
+            since anchor can be placed before the focus or vice versa, depending on the direction you made your selection.
+        </p>
+        <p>
+            Returns a number representing the offset of the selection's anchor within the focusNode. If focusNode is a text node, this
+            is the number of characters within focusNode preceding the focus. If focusNode is an element, this is the number
+            of child nodes of the focusNode preceding the focus.
+        </p>
+        <p>
+            The Selection API has a common behaviour (i.e. shared between browsers) that govern how focus behaviour changes for editing
+            hosts, after some of its methods are called.
+        </p>
+        <p>
+            A range is a contiguous part of a document. A range can contain entire nodes as well as portions of nodes, such as a portion
+            of a text node. A user will normally only select a single range at a time, but it's possible for a user to select
+            multiple ranges (e.g. by using the Control key). A range can be retrieved from a selection as a range object.
+            Range objects can also be created via the DOM and programmatically added or removed from a selection
+        </p>
+    </div>
+    <button id="anchor">anchor</button>
+</body>
+
 </html>
