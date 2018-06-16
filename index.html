@@ -1,6 +1,14 @@
 <html>
 
 <head>
+    <style>
+        p {
+            margin: 25px 40px;
+            font-size: 20px;
+            line-height: 1.6em;
+            text-align: justify;
+        }
+    </style>
     <script src='main.js' async></script>
 </head>
 
@@ -11,10 +19,13 @@
         </h2>
         <p>
             user may make a selection from left to right (in document order) or right to left (reverse of document order). The anchor
-            is where the user began the selection and the focus is where the user ends the selection. If you make a selection
-            with a desktop mouse, the anchor is placed where you pressed the mouse button and the focus is placed where you
-            released the mouse button. Anchor and focus should not be confused with the start and end positions of a selection,
-            since anchor can be placed before the focus or vice versa, depending on the direction you made your selection.
+            is where the user began the
+            <span>selection and the
+                <b>focus</b> is where the
+                <i>user ends</i> the selection.</span> If you make a selection with a desktop mouse, the anchor is placed where
+            you pressed the mouse button and the focus is placed where you released the mouse button. Anchor and focus should
+            not be confused with the start and end positions of a selection, since anchor can be placed before the focus
+            or vice versa, depending on the direction you made your selection.
         </p>
         <p>
             Returns a number representing the offset of the selection's anchor within the focusNode. If focusNode is a text node, this
@@ -32,7 +43,7 @@
             Range objects can also be created via the DOM and programmatically added or removed from a selection
         </p>
     </div>
-    <button id="anchor">anchor</button>
+    <button id="anchor">anchor&&focus</button>
 </body>
 
 </html>
