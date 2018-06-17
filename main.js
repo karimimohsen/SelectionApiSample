@@ -69,5 +69,38 @@ containsNode.addEventListener('click', (e) => {
 const deleteBtn = document.querySelector('#delete');
 deleteBtn.addEventListener('click', (e) => {
     const selection = getSelection();
-   selection.deleteFromDocument();    
+    selection.deleteFromDocument();
+});
+
+const extend = document.querySelector('#extend');
+extend.addEventListener('click', (e) => {
+    const n = document.querySelector('#container > p:last-child')
+    const selection = getSelection();
+
+    selection.extend(n, 1);
+});
+
+const selectAll = document.querySelector('#selectAll');
+selectAll.addEventListener('click', (e) => {
+    const container = document.querySelector('#container')
+    const selection = getSelection();
+
+    selection.selectAllChildren(container);
+});
+
+const baseExtend = document.querySelector('#baseExtend');
+baseExtend.addEventListener('click', (e) => {
+    const span = document.querySelector('#container > p > span')
+    const focus = document.querySelector('#container > p:last-child')
+    const selection = getSelection();
+
+    selection.setBaseAndExtent(span, 0, focus, 0);
+});
+
+
+const tostring = document.querySelector('#tostring');
+tostring.addEventListener('click', (e) => {
+    const selection = getSelection();
+    if (selection.type === 'Range')
+        console.log(selection.toString());
 });
