@@ -104,3 +104,23 @@ tostring.addEventListener('click', (e) => {
     if (selection.type === 'Range')
         console.log(selection.toString());
 });
+
+const range = document.querySelector('#range');
+range.addEventListener('click', (e) => {
+    const range = getSelection().getRangeAt(0);
+    console.log(`collapsed: ${range.collapsed}`);
+    
+    console.group('commonAncestorContainer')
+    console.dir(range.commonAncestorContainer);
+    console.groupEnd();
+
+    console.group('start');
+    console.dir(range.startContainer);
+    console.dir(range.startOffset);    
+    console.groupEnd();
+    
+    console.group('end');
+    console.dir(range.endContainer);
+    console.dir(range.endOffset);
+    console.groupEnd();
+});
