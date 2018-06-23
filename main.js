@@ -82,7 +82,7 @@ extend.addEventListener('click', (e) => {
 
 const selectAll = document.querySelector('#selectAll');
 selectAll.addEventListener('click', (e) => {
-    const container = document.querySelector('#container')
+    const container = document.querySelector('#container');
     const selection = getSelection();
 
     selection.selectAllChildren(container);
@@ -90,8 +90,8 @@ selectAll.addEventListener('click', (e) => {
 
 const baseExtend = document.querySelector('#baseExtend');
 baseExtend.addEventListener('click', (e) => {
-    const span = document.querySelector('#container > p > span')
-    const focus = document.querySelector('#container > p:last-child')
+    const span = document.querySelector('#container > p > span');
+    const focus = document.querySelector('#container > p:last-child');
     const selection = getSelection();
 
     selection.setBaseAndExtent(span, 0, focus, 0);
@@ -125,3 +125,89 @@ range.addEventListener('click', (e) => {
     console.dir(range.endOffset);
     console.groupEnd();
 });
+
+const startendrange = document.querySelector('#startendrange');
+startendrange.addEventListener('click', (e) => {
+    const range = document.createRange();
+    const span = document.querySelector('#container p span');
+    const startOffset = 0;
+    const endOffset = 1;
+    range.setStart(span, startOffset);
+    range.setEnd(span, endOffset);
+    console.group('setStartsetEnd');
+    console.groupEnd();
+
+    // add to selection
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    setTimeout(() => {
+        const p = document.querySelectorAll('#container p');
+        const beforerange = document.createRange();
+        beforerange.setStartBefore(p.item(0));
+        beforerange.setEndBefore(p.item(1));
+
+        // add to selection
+        selection.removeAllRanges();
+        selection.addRange(beforerange);
+        console.group('setStartBeforesetEndBefore');
+        console.groupEnd();
+    }, 2000);
+
+    setTimeout(() => {
+        const p = document.querySelectorAll('#container p');
+        const afterrange = document.createRange();
+        afterrange.setStartAfter(p.item(0));
+        afterrange.setEndAfter(p.item(1));
+
+        // add to selection
+        selection.removeAllRanges();
+        selection.addRange(afterrange);
+        console.group('setStartAftersetEndAfter');
+        console.groupEnd();
+    }, 4000);
+});
+
+const selectnoderange = document.querySelector('#selectnoderange');
+selectnoderange.addEventListener('click', (e) => {
+    setTimeout(() => {
+        const range = document.createRange();
+        const span = document.querySelector('#container p span');    
+        range.selectNode(span);
+        
+        // add to selection
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    
+        console.group('selectNode: window.getSelection');
+        console.log(selection);    
+        console.groupEnd();
+    
+        const ranged = selection.getRangeAt(0);
+        console.group('selectNode: window.getSelection().getRangedAt');
+        console.log(ranged);    
+        console.groupEnd();        
+    }, 0);
+
+    setTimeout(() => {
+        const range = document.createRange();
+        const span = document.querySelector('#container p span');    
+        range.selectNodeContents(span);
+        
+        // add to selection
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+    
+        console.group('selectNodeContents: window.getSelection');
+        console.log(selection);    
+        console.groupEnd();
+    
+        const ranged = selection.getRangeAt(0);
+        console.group('selectNodeContents: window.getSelection().getRangedAt');
+        console.log(ranged);    
+        console.groupEnd();        
+    }, 2000);    
+});
+
