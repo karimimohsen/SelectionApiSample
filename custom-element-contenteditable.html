@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <title>sample shadowdom contenteditable</title>
+</head>
+
+<body>
+    <content-editable contenteditable="true">
+        There are a couple of interesting things going on here. The first is that the custom element creates its own shadow DOM when
+        an instance of is created.
+        <x-bold>That's done in the constructor(). </x-bold>
+        Secondly, because we're creating a shadow root, the CSS rules inside the will be scoped to
+    </content-editable>
+    <button id='selection' class='no-focus'>Selection</button>
+</body>
+<script>
+    class ContentEditable extends HTMLElement {
+        constructor() {
+            super();
+            const shadowRoot = this.attachShadow({ mode: 'open' });
+            shadowRoot.innerHTML = `  
+            <style>
+                ::slotted(x-bold){
+                    font-size:20px;
+                    font-weight: bold;
+                }  
+                </style>                
+            <div id="container" >
+                <slot></slot>
+            </div>            
+            `;
+        }
+
+    }
+    customElements.define('content-editable', ContentEditable);
+
+    class XBold extends HTMLElement {
+        constructor() {
+            super();
+        }
+    }
+    customElements.define('x-bold', XBold);
+
+    Array
+        .from(document.querySelectorAll('.no-focus'))
+        .forEach(item => item.addEventListener('mousedown', e => e.preventDefault()));
+
+
+    const selectionBtn = document.querySelector('#selection');
+    selectionBtn.addEventListener('click', (e) => {
+        const selection = window.getSelection();
+        if (selection.type == 'Caret') {
+            const range = selection.getRangeAt(0);
+            console.dir(range.commonAncestorContainer.parentElement.nodeName);
+        }
+    });
+
+</script>
+
+</html>
