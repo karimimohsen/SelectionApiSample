@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <content-editable contenteditable="true">
+    <content-editable>
         There are a couple of interesting things going on here. The first is that the custom element creates its own shadow DOM when
         an instance of is created.
         <x-bold>That's done in the constructor(). </x-bold>
@@ -17,6 +17,7 @@
     class ContentEditable extends HTMLElement {
         constructor() {
             super();
+            this.contentEditable  = true;
             const shadowRoot = this.attachShadow({ mode: 'open' });
             shadowRoot.innerHTML = `  
             <style>
@@ -24,13 +25,13 @@
                     font-size:20px;
                     font-weight: bold;
                 }  
-                </style>                
-            <div id="container" >
+            </style>
+            <div id="container">
                 <slot></slot>
-            </div>            
+            </div>
             `;
+            console.log(this.ownerDocument);
         }
-
     }
     customElements.define('content-editable', ContentEditable);
 
