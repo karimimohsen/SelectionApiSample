@@ -1,0 +1,123 @@
+<html>
+
+<head>
+    <title>sample shadowdom contenteditable</title>
+</head>
+
+<body>
+    <!-- There are a couple of interesting things going on here. The first is that the custom element creates its own shadow DOM when
+        an instance of is created.
+        That's done in the constructor().
+        Secondly, because we're creating a shadow root, the CSS rules inside the will be scoped to| -->
+    <content-editable>
+    </content-editable>
+</body>
+<script>
+    class ContentEditable extends HTMLElement {
+        constructor() {
+            super();
+            this.shadow = this.attachShadow({ mode: 'open' });
+            this.shadow.innerHTML = `  
+            <style>
+                #container{
+                    padding: 0;
+                    margin:0;                                        
+                    border:1px solid #786532;
+                    border-radius:4px;
+                    font-size:20px;
+                    font-weight: bold;
+                }  
+                x-paragraph{
+                    display:block;
+                    margin:10px; 0px;
+                    padding:3px;
+                    min-height:20px;
+                }
+            </style>
+            <div id="container" contenteditable='true'>
+            </div>
+            `;
+            const container = this.shadow.querySelector("#container");
+            container.addEventListener('input', (event) => {
+                // console.log(container);
+            });
+            container.addEventListener('focus', (event) => {
+                console.dir('i am container');
+            });
+            container.addEventListener('keydown', (event) => {
+                if (event.keyCode === 13) {
+                    const currentEle = this.findParagraph();
+                    if (currentEle)
+                        this.createParagraph(currentEle);
+                    event.preventDefault();
+                }
+            });
+
+            this.createFirstParagraph();
+
+
+        }
+
+        findParagraph() {
+            const selection = this.shadow.getSelection();
+            if (selection.type !== 'Caret')
+                return;
+
+            let startEle = selection.getRangeAt(0).startContainer;
+
+            while (startEle.nodeType == 3 || (startEle.nodeType == 1 && startEle.nodeName.toLowerCase() !== 'x-paragraph')) {
+                startEle = startEle.parentElement;
+            }
+
+            return startEle;
+        }
+
+        createFirstParagraph() {
+            const doc = this.shadow.ownerDocument;
+            const container = this.shadow.querySelector("#container");
+            const newEle = doc.createElement('x-paragraph');
+            const newText = doc.createTextNode('\r');
+            newEle.appendChild(newText);
+            container.appendChild(newEle);
+
+            const range = document.createRange();
+            range.setStart(newText, 0);
+            range.collapse(true);
+            const selection = this.shadow.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+
+        createParagraph(currentElement) {
+            const doc = this.shadow.ownerDocument;
+            const container = this.shadow.querySelector("#container");
+            const newEle = doc.createElement('x-paragraph');
+            const newText = doc.createTextNode('\r');
+            newEle.appendChild(newText);
+            currentElement.parentNode.insertBefore(newEle, currentElement.nextSibling);
+
+
+            const range = document.createRange();
+            range.setStart(newText, 0);
+            range.collapse(true);
+            const selection = this.shadow.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+
+    }
+    customElements.define('content-editable', ContentEditable);
+
+    class XParagraph extends HTMLElement {
+        constructor() {
+            super();
+            this.addEventListener('focus', (e) => {
+                console.log('i am paragraph');
+            });
+        }
+    }
+    customElements.define('x-paragraph', XParagraph);
+
+</script>
+
+</html>

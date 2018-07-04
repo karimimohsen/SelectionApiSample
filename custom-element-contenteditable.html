@@ -18,8 +18,8 @@
         constructor() {
             super();
             this.contentEditable  = true;
-            const shadowRoot = this.attachShadow({ mode: 'open' });
-            shadowRoot.innerHTML = `  
+            const shadow = this.attachShadow({ mode: 'open' });
+            shadow.innerHTML = `  
             <style>
                 ::slotted(x-bold){
                     font-size:20px;
